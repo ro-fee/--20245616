@@ -1,0 +1,20 @@
+{
+  "seed": 20261008,
+  "audit_fraction": 0.2,
+  "development_folds": 4,
+  "batch_size": 16,
+  "workers": 4,
+  "tta": ["identity", "horizontal_flip"],
+  "ensemble_weights": [0.0, 0.25, 0.5, 0.75, 1.0],
+  "final_seeds": [20261008, 20261009],
+  "experiments": [
+    {"name": "scratch_resnet18_raw", "architecture": "resnet18", "pretrained": false, "view": "raw", "augmentation": false, "size": 224, "epochs": 80, "min_epochs": 40, "patience": 20, "backbone_lr": 0.001, "head_lr": 0.001, "weight_decay": 0.0005},
+    {"name": "convnext_base_raw", "architecture": "convnext_base", "pretrained": true, "view": "raw", "augmentation": true, "size": 320, "epochs": 30, "min_epochs": 15, "patience": 8, "backbone_lr": 0.00003, "head_lr": 0.0003, "weight_decay": 0.02},
+    {"name": "convnext_base_crop_noaug", "architecture": "convnext_base", "pretrained": true, "view": "crop", "augmentation": false, "size": 320, "epochs": 30, "min_epochs": 15, "patience": 8, "backbone_lr": 0.00003, "head_lr": 0.0003, "weight_decay": 0.02},
+    {"name": "convnext_base_crop", "architecture": "convnext_base", "pretrained": true, "view": "crop", "augmentation": true, "size": 320, "epochs": 30, "min_epochs": 15, "patience": 8, "backbone_lr": 0.00003, "head_lr": 0.0003, "weight_decay": 0.02},
+    {"name": "convnext_base_crop_lr", "architecture": "convnext_base", "pretrained": true, "view": "crop", "augmentation": true, "size": 320, "epochs": 30, "min_epochs": 15, "patience": 8, "backbone_lr": 0.0001, "head_lr": 0.0003, "weight_decay": 0.02},
+    {"name": "dinov2_large_crop", "architecture": "dinov2_large", "pretrained": true, "view": "crop", "augmentation": true, "size": 448, "epochs": 24, "min_epochs": 12, "patience": 7, "backbone_lr": 0.00001, "head_lr": 0.0005, "weight_decay": 0.02, "unfreeze_blocks": 4}
+  ],
+  "selection": "Screen on development fold 0; complete development CV for the best CNN and DINOv2. Choose a coarse ensemble weight from development OOF only. Freeze recipe before opening audit results or test images.",
+  "data_policy": "Original 500 training images only; publicly released generic pretrained weights allowed by user confirmation. No external labeled samples, no test labels, no per-ID corrections, no old fine-tuned weights or test-selected recipes."
+}

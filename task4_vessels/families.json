@@ -1,0 +1,80 @@
+{
+  "baseline": {
+    "arch": "unet",
+    "encoder": "resnet34",
+    "scale": 1.0,
+    "epochs": 80,
+    "iters": 20,
+    "bs": 8,
+    "crop": 320,
+    "lr": 0.0005,
+    "seed": 42,
+    "ema": 0.0
+  },
+  "highres_resnet34": {
+    "arch": "unet",
+    "encoder": "resnet34",
+    "scale": 1.5,
+    "epochs": 80,
+    "iters": 25,
+    "bs": 8,
+    "crop": 384,
+    "lr": 0.0001,
+    "seed": 42,
+    "ema": 0.99,
+    "init": "baseline"
+  },
+  "highres_effb3": {
+    "arch": "unet",
+    "encoder": "efficientnet-b3",
+    "scale": 1.5,
+    "epochs": 120,
+    "iters": 25,
+    "bs": 8,
+    "crop": 320,
+    "lr": 0.0003,
+    "seed": 2026,
+    "ema": 0.99
+  },
+  "native_unetpp": {
+    "arch": "unetpp",
+    "encoder": "resnet34",
+    "scale": 1.0,
+    "epochs": 80,
+    "iters": 25,
+    "bs": 8,
+    "crop": 320,
+    "lr": 0.0003,
+    "seed": 3407,
+    "ema": 0.99,
+    "init": "baseline",
+    "encoder_only_init": true
+  },
+  "direct512": {
+    "arch": "unet",
+    "encoder": "efficientnet-b3",
+    "scale": 1.5,
+    "epochs": 80,
+    "iters": 20,
+    "bs": 8,
+    "crop": 384,
+    "lr": 0.0001,
+    "seed": 2026,
+    "ema": 0.99,
+    "init": "highres_effb3",
+    "target512": true
+  },
+  "context": {
+    "arch": "unetpp",
+    "encoder": "resnet34",
+    "scale": 1.0,
+    "epochs": 60,
+    "iters": 20,
+    "bs": 4,
+    "crop": 576,
+    "lr": 5e-05,
+    "seed": 20261105,
+    "ema": 0.99,
+    "init": "native_unetpp"
+  }
+}

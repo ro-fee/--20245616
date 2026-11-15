@@ -1,0 +1,37 @@
+{
+  "seed": 20261011,
+  "classes": {
+    "Angry": 0,
+    "Fear": 1,
+    "Happy": 2,
+    "Sad": 3,
+    "Surprise": 4,
+    "Neutral": 5
+  },
+  "epochs": 24,
+  "head_warmup_epochs": 1,
+  "weight_decay": 0.01,
+  "label_smoothing": 0.05,
+  "deadline_utc": null,
+  "disk_reserve_gib": 15,
+  "models": {
+    "hsemotion": {
+      "image_size": 260,
+      "batch_size": 32,
+      "accumulation": 1,
+      "backbone_lr": 5e-05,
+      "head_lr": 0.0005,
+      "gpu_cap_gib": 8,
+      "gpu_required_gib": 12
+    },
+    "poster": {
+      "image_size": 224,
+      "batch_size": 16,
+      "accumulation": 2,
+      "backbone_lr": 2e-05,
+      "head_lr": 0.0002,
+      "gpu_cap_gib": 16,
+      "gpu_required_gib": 20
+    }
+  }
+}

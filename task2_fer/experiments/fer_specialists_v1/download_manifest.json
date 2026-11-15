@@ -1,0 +1,24 @@
+{
+  "hsemotion": {
+    "relative_path": "vendor/hsemotion/models/affectnet_emotions/enet_b2_7.pt",
+    "size": 31367173,
+    "sha256": "e687fd9e7bee45486c7325f11222740f841c3bebac531badb903a50e82b9ac0f",
+    "repository": "sb-ai-lab/EmotiEffLib",
+    "commit": "520a051c64cd191521e5934655314e769a319684",
+    "official_url": "https://raw.githubusercontent.com/sb-ai-lab/EmotiEffLib/520a051c64cd191521e5934655314e769a319684/models/affectnet_emotions/enet_b2_7.pt",
+    "pretraining": "VGGFace2 then AffectNet (7 classes)",
+    "competition_overlap": "unknown; not independently audited",
+    "fer2013_or_ferplus_checkpoint_used": false
+  },
+  "poster": {
+    "relative_path": "weights/poster_affectnet7.pth",
+    "size": 238969935,
+    "sha256": "743dc66a8bf434ff828f3de31f0b0f2e038c271294c980134ffc8b91898aaaff",
+    "repository": "Talented-Q/POSTER_V2",
+    "commit": "18de5591c3fa0b7b22bb9fe2d61e7f813e6e3b08",
+    "official_url": "https://drive.google.com/file/d/1c_gp5UdlcMjIB2dZtdhXFfHOQg1OqU-D/view",
+    "pretraining": "Official AffectNet (7 classes); recognition/landmark backbone provenance is inherited from the authors",
+    "competition_overlap": "unknown; not independently audited",
+    "fer2013_or_ferplus_checkpoint_used": false
+  }
+}
