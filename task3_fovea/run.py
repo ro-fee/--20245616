@@ -17,17 +17,15 @@ def test_table(test_dir,template):
         raise ValueError('Every image requires one X and one Y row')
     root=Path(test_dir).resolve()
     images=[p for p in root.rglob('*') if p.is_file() and p.suffix.lower() in e.IMAGE_EXTENSIONS]
-    index={}
     for path in images:
         if not path.resolve().is_relative_to(root):raise ValueError('Image escaped input directory')
-        index.setdefault(e.canonical_image_id(path.name),[]).append(path)
+    index=e.build_image_index(images,root=root)
     rows=[]
     for image_id in dict.fromkeys(layout.image_id):
-        choices=index.get(image_id,[])
-        if len(choices)!=1:raise ValueError('Image identifier is absent or ambiguous: '+image_id)
-        path=choices[0];im=e.read_rgb(path);h,w=im.shape[:2]
+        path=e.resolve_image(index,image_id,'test');im=e.read_rgb(path);h,w=im.shape[:2]
         rows.append(dict(image_id=image_id,path=str(path),width=w,height=h))
     if not rows:raise ValueError('Template is empty')
+    if len({r['path'] for r in rows})!=len(rows):raise ValueError('Multiple IDs map to the same image')
     return pd.DataFrame(rows),sample,layout
 
 def predict(args):

@@ -5,13 +5,14 @@
 ```sh
 pip install -r requirements.txt
 python src/audit.py
-python src/train_large.py --model efficientnet_b0 --folds all
-python src/train_large.py --model convnext_tiny --folds all
-python src/train_large.py --model convnext_base --folds all
+python src/train_large.py --model efficientnet_b0 --folds all --epochs 22 --batch-size 128 --lr 0.0003 --patience 6
+python src/train_large.py --model convnext_tiny --folds all --epochs 20 --batch-size 96 --lr 0.0002 --patience 6
+python src/train_large.py --model convnext_base --folds all --epochs 16 --batch-size 32 --lr 0.0001 --patience 5
 python experiments/dinov2_large_v1/src/train_dino.py prepare
+python experiments/dinov2_large_v1/src/train_dino.py extract
 ```
 
-训练预处理只读取训练目录，按完全相同及近重复图像建立分组，再进行分层分组五折；同一组不能跨训练与验证折。CNN 的训练脚本只保存训练折验证预测。DINOv2 固定官方 revision，在每个 fold=0..4 上依次运行 `selftest`、`smoke`、`train`，均加 `--fold <fold>`。LoRA 默认 rank=16、alpha=32、query/value 适配和 10 epochs。
+训练预处理只读取训练目录，按完全相同及近重复图像建立分组，再进行分层分组五折；同一组不能跨训练与验证折。CNN 的训练脚本只保存训练折验证预测。DINOv2 固定官方 revision，`extract` 只计算冻结骨干特征；随后在每个 fold=0..4 上依次运行 `selftest`、`head`、`smoke`、`train`，均加 `--fold <fold>`。`head` 使用对应训练折训练分类头 30 轮；LoRA 默认 rank=16、alpha=32、query/value 适配和 10 epochs。
 
 专用模型的预训练来源、固定哈希和许可分别见 `experiments/fer_specialists_v1/download_manifest.json` 与 `third_party/`。从其中官方链接取得 HSEmotion 和 POSTER 的 AffectNet 七类预训练文件后执行：
 

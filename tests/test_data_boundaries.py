@@ -58,8 +58,9 @@ def test_fer_rejects_paths_in_template(tmp_path, bad_id):
         infer.prepare_pixels(tmp_path, path, tmp_path)
 
 
-def test_fovea_template_is_label_independent(tmp_path, fovea_run):
-    Image.fromarray(np.zeros((60,80,3),np.uint8)).save(tmp_path/'81.jpg')
+@pytest.mark.parametrize('filename',['81.jpg','0081.jpg'])
+def test_fovea_template_is_label_independent(tmp_path, fovea_run,filename):
+    Image.fromarray(np.zeros((60,80,3),np.uint8)).save(tmp_path/filename)
     frames = []
     for n, values in enumerate([['',''], ['100000','-9999']]):
         path = tmp_path/f'template{n}.csv'
@@ -69,6 +70,21 @@ def test_fovea_template_is_label_independent(tmp_path, fovea_run):
         assert layout.axis.tolist() == ['x','y']
         frames.append(frame)
     pd.testing.assert_frame_equal(*frames)
+
+
+def test_fovea_rejects_ambiguous_numeric_ids(tmp_path,fovea_run):
+    for name in ['0081.jpg','00081.jpg']:
+        Image.fromarray(np.zeros((60,80,3),np.uint8)).save(tmp_path/name)
+    path=tmp_path/'template.csv'
+    template(path,['ImageID','value'],[['81_Fovea_X',''],['81_Fovea_Y','']])
+    with pytest.raises(ValueError):fovea_run.test_table(tmp_path,path)
+
+
+def test_fovea_rejects_multiple_ids_for_one_image(tmp_path,fovea_run):
+    Image.fromarray(np.zeros((60,80,3),np.uint8)).save(tmp_path/'0081.jpg')
+    path=tmp_path/'template.csv'
+    template(path,['ImageID','value'],[[i,''] for i in ['81_Fovea_X','81_Fovea_Y','0081_Fovea_X','0081_Fovea_Y']])
+    with pytest.raises(ValueError):fovea_run.test_table(tmp_path,path)
 
 
 def test_fovea_rejects_incomplete_axis_pairs(tmp_path, fovea_run):
